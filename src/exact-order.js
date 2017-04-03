@@ -1,4 +1,4 @@
-import path from 'object-path';
+import { get } from 'object-path';
 
 /**
  * @method byPrimitive
@@ -24,8 +24,8 @@ const byNested = order => {
         const key = keys[index];
 
         const [firstIndex, secondIndex] = [
-            order[key].findIndex(c => c === path.get(a, key)),
-            order[key].findIndex(c => c === path.get(b, key))
+            order[key].findIndex(c => c === get(a, key)),
+            order[key].findIndex(c => c === get(b, key))
         ];
 
         return firstIndex === secondIndex ? sort(a, b, index + 1) : firstIndex > secondIndex;
@@ -38,6 +38,4 @@ const byNested = order => {
  * @param {Array|Object} order
  * @return {Function}
  */
-export default order => {
-    return Array.isArray(order) ? byPrimitive(order) : byNested(order);
-};
+export default order => Array.isArray(order) ? byPrimitive(order) : byNested(order);

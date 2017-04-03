@@ -60,7 +60,8 @@
     "parser": "babel-eslint",
     "esnext": true,
     "rules": {
-      "padded-blocks": "off"
+      "padded-blocks": "off",
+      "object-curly-spacing": "off"
     }
   }
 }

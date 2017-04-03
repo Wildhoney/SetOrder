@@ -1,6 +1,6 @@
 # Exact Order
 
-> Dead simple module for ordering by an explicit order weighing in at 1.3KB.<br /><br />
+> **Dead simple module for ordering by an explicit order weighing in at 1.3KB.**<br /><br />
 > :bulb: Useful for when you have an array of dynamic data, but you need to sort by a set order, rather than a natural sort order, such as alphabetically or numerically.<br /><br />
 > `npm i exact-order --save`
 
