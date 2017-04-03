@@ -1,7 +1,7 @@
 {
   "name": "exact-order",
-  "version": "0.1.0",
-  "description": "Dead simple module for ordering by an explicit order weighing in at ~475B.",
+  "version": "0.1.1",
+  "description": "Dead simple module for ordering by an explicit order weighing in at ~1.3KB.",
   "main": "dist/exact-order.js",
   "scripts": {
     "build": "taskfile build",
@@ -40,8 +40,10 @@
     "rollup": "~0.41.6",
     "rollup-plugin-commonjs": "~8.0.2",
     "rollup-plugin-node-resolve": "~2.1.1",
+    "rollup-plugin-uglify": "~1.0.1",
     "tap-nyan": "~1.1.0",
     "taskfile": "~0.5.3",
+    "uglify-js-harmony": "~2.7.5",
     "xo": "~0.18.1"
   },
   "ava": {

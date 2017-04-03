@@ -1,5 +1,7 @@
 import resolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
+import uglify from 'rollup-plugin-uglify';
+import { minify } from 'uglify-js-harmony';
 
 export default {
     entry: 'src/exact-order.js',
@@ -15,6 +17,7 @@ export default {
             jsnext: true,
             module: true,
             main: true
-        })
+        }),
+        uglify({}, minify)
     ]
 };
