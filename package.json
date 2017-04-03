@@ -4,6 +4,7 @@
   "description": "Dead simple module for ordering by an explicit order weighing in at ~325b.",
   "main": "dist/exact-order.js",
   "scripts": {
+    "build": "taskfile build",
     "test": "taskfile test",
     "lint": "taskfile lint",
     "spec": "taskfile spec"
@@ -35,6 +36,7 @@
     "babel-plugin-transform-es2015-modules-commonjs": "~6.24.0",
     "babel-register": "~6.24.0",
     "rollup": "~0.41.6",
+    "rollup-plugin-node-resolve": "~2.1.1",
     "taskfile": "~0.5.3",
     "xo": "~0.18.1"
   },

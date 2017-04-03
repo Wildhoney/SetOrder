@@ -1,3 +1,6 @@
+- name: build
+  task: rollup --config rollup.config.js
+
 - name: test
   tasks:
     - taskfile lint
