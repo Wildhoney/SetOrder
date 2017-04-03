@@ -23,5 +23,5 @@ const countries = [
 // Complex.
 countries.sort(as({
     name: ['United Kingdom', 'The Netherlands', 'Russian Federation']
-}))
+}));
 ```
