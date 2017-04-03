@@ -12,7 +12,7 @@ Useful for when you have an array of dynamic data, but you need to sort by a set
 import as from 'exact-order';
 
 // Primitives.
-[1, 2, 3].sort(as(2, 1, 3)); // [2, 1, 3]
+[1, 2, 3].sort(as([2, 1, 3])); // [2, 1, 3]
 
 const countries = [
     { name: 'Russian Federation' },
