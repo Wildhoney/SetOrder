@@ -19,10 +19,17 @@ const byNested = order => {
 
     const keys = Object.keys(order);
 
-    return (a, b) => {
-        const key = keys[0];
-        const [firstIndex, secondIndex] = [order[key].findIndex(c => c === a[key]), order[key].findIndex(c => c === b[key])];
-        return firstIndex > secondIndex;
+    return function sort(a, b, index = 0) {
+
+        const key = keys[index];
+
+        const [firstIndex, secondIndex] = [
+            order[key].findIndex(c => c === path.get(a, key)),
+            order[key].findIndex(c => c === path.get(b, key))
+        ];
+
+        return firstIndex === secondIndex ? sort(a, b, index + 1) : firstIndex > secondIndex;
+
     };
 
 };
