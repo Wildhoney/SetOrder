@@ -51,6 +51,8 @@
     "space": 4,
     "parser": "babel-eslint",
     "esnext": true,
-    "rules": {}
+    "rules": {
+      "padded-blocks": "off"
+    }
   }
 }

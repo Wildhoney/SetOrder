@@ -1,7 +1,7 @@
 - name: test
   tasks:
     - taskfile lint
-    - taskfile ava
+    - taskfile spec
 
 - name: lint
   task: xo src/exact-order.js
