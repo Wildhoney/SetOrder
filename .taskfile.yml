@@ -10,4 +10,4 @@
   task: xo src/exact-order.js
 
 - name: spec
-  task: ava
+  task: nyc ava --tap | tap-nyan

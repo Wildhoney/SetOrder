@@ -35,8 +35,11 @@
     "babel-eslint": "~7.2.1",
     "babel-plugin-transform-es2015-modules-commonjs": "~6.24.0",
     "babel-register": "~6.24.0",
+    "coveralls": "~2.13.0",
+    "nyc": "~10.2.0",
     "rollup": "~0.41.6",
     "rollup-plugin-node-resolve": "~2.1.1",
+    "tap-nyan": "~1.1.0",
     "taskfile": "~0.5.3",
     "xo": "~0.18.1"
   },
