@@ -4,7 +4,9 @@
   "description": "Dead simple module for ordering by an explicit order weighing in at ~325b.",
   "main": "dist/exact-order.js",
   "scripts": {
-    "test": "ava"
+    "test": "taskfile test",
+    "lint": "taskfile lint",
+    "spec": "taskfile spec"
   },
   "repository": {
     "type": "git",
@@ -29,7 +31,26 @@
   },
   "devDependencies": {
     "ava": "~0.18.2",
+    "babel-eslint": "~7.2.1",
+    "babel-plugin-transform-es2015-modules-commonjs": "~6.24.0",
+    "babel-register": "~6.24.0",
     "rollup": "~0.41.6",
+    "taskfile": "~0.5.3",
     "xo": "~0.18.1"
+  },
+  "ava": {
+    "files": [
+      "tests/*.test.js"
+    ],
+    "babel": "inherit",
+    "require": [
+      "babel-register"
+    ]
+  },
+  "xo": {
+    "space": 4,
+    "parser": "babel-eslint",
+    "esnext": true,
+    "rules": {}
   }
 }

@@ -1,0 +1,10 @@
+- name: test
+  tasks:
+    - taskfile lint
+    - taskfile ava
+
+- name: lint
+  task: xo src/exact-order.js
+
+- name: spec
+  task: ava
