@@ -1,7 +1,7 @@
 {
   "name": "set-order",
-  "version": "0.1.1",
-  "description": "Dead simple module for ordering by an explicit order weighing in at ~1.3KB.",
+  "version": "0.2.0",
+  "description": "Tiny module for sorting by a set order, using a custom sort function for omitting explicits.",
   "main": "dist/exact-order.js",
   "scripts": {
     "build": "taskfile build",
@@ -30,11 +30,13 @@
   "dependencies": {
     "es6-symbol": "~3.1.1",
     "object-path": "~0.11.4",
+    "ramda": "~0.23.0",
     "sort-by": "~1.2.0"
   },
   "devDependencies": {
     "ava": "~0.18.2",
     "babel-eslint": "~7.2.1",
+    "babel-plugin-transform-do-expressions": "~6.22.0",
     "babel-plugin-transform-es2015-modules-commonjs": "~6.24.0",
     "babel-register": "~6.24.0",
     "coveralls": "~2.13.0",
@@ -62,7 +64,12 @@
     "esnext": true,
     "rules": {
       "curly": "off",
+      "key-spacing": "off",
+      "comma-dangle": "off",
       "padded-blocks": "off",
+      "no-unused-vars": "off",
+      "no-multi-spaces": "off",
+      "no-implicit-coercion": "off",
       "object-curly-spacing": "off"
     }
   }
