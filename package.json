@@ -1,5 +1,5 @@
 {
-  "name": "exact-order",
+  "name": "set-order",
   "version": "0.1.1",
   "description": "Dead simple module for ordering by an explicit order weighing in at ~1.3KB.",
   "main": "dist/exact-order.js",
@@ -26,7 +26,7 @@
   "bugs": {
     "url": "https://github.com/Wildhoney/ExactOrder/issues"
   },
-  "homepage": "https://github.com/Wildhoney/ExactOrder#readme",
+  "homepage": "https://github.com/Wildhoney/SetOrder#readme",
   "dependencies": {
     "object-path": "~0.11.4"
   },
