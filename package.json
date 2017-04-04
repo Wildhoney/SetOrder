@@ -1,6 +1,6 @@
 {
   "name": "set-order",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Tiny module for sorting by a set order, using a custom sort function for omitting explicits.",
   "main": "dist/exact-order.js",
   "scripts": {
