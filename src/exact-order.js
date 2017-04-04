@@ -1,87 +1,49 @@
-import path from 'object-path';
+import path   from 'object-path';
 import Symbol from 'es6-symbol';
 
 /**
- * @constant HEAD
+ * @constant head
  * @type {Symbol}
  */
-export const HEAD = Symbol('set-order/head');
+export const head = Symbol('set-order/head');
 
 /**
- * @constant TAIL
+ * @constant tail
  * @type {Symbol}
  */
-export const TAIL = Symbol('set-order/tail');
+export const tail = Symbol('set-order/tail');
 
 /**
- * @method handle
- * @param {*} a
- * @param {*} b
- * @return {Function}
- */
-const handle = (a, b) => {
-
-    /**
-     * @param {Function} indexOf
-     * @param {Function} sort
-     * @param {Symbol} position
-     * @return {Number|Boolean}
-     */
-    return (indexOf, sort, position) => {
-
-        const [firstIndex, secondIndex] = [indexOf(a), indexOf(b)];
-
-        if (firstIndex !== -1 && secondIndex === -1) return position === HEAD ? -1 : 1;
-        if (firstIndex === -1 && secondIndex !== -1) return position === HEAD ? 1 : -1;
-        if (firstIndex === -1 && secondIndex === -1) return sort(a, b);
-
-        return firstIndex > secondIndex;
-
-    };
-
-};
-
-/**
- * @method byPrimitive
+ * @method exact
+ * @param {Array} xs
  * @param {Array} order
- * @param {Function} sort
- * @param {Symbol} position
- * @return {Function}
+ * @param {Function} [sort = () => 0]
+ * @return {Array}
  */
-const byPrimitive = (order, sort, position) => (a, b) => {
-    const indexOf = x => order.indexOf(x);
-    return handle(a, b)(indexOf, sort, position);
-};
+export const exact = (xs, order, sort = () => 0) => {
 
-/**
- * @method byNested
- * @param {Object} order
- * @param {Function} sort
- * @param {Symbol} position
- * @return {Function}
- */
-const byNested = (order, sort, position) => {
+    const sorted = xs.reduce((xss, x, index) => {
 
-    const keys = Object.keys(order);
+        const model = order.find(a => a.value === x);
 
-    return function recurse(a, b, index = 0) {
+        return [...xss, {
+            has:   !!model,
+            key:   (model || {}).key || null,
+            index: model ? (model.position === tail ? (xs.length + index) : -(xs.length - index)) : index + 1,
+            value: xs[index],
+        }];
 
-        const key = keys[index];
-        const indexOf = x => order[key].findIndex(y => y === path.get(x, key));
-        const shouldRecurse = indexOf(a) === indexOf(b) && keys[index + 1];
+    }, []);
 
-        return shouldRecurse ? recurse(a, b, index + 1) : handle(a, b)(indexOf, sort, position);
+    return xs.sort((a, b) => {
 
-    };
+        const [first, second] = [
+            sorted.find(x => x.value === a),
+            sorted.find(x => x.value === b),
+        ];
 
-};
+        return !first.has && !second.has ? sort(a, b) : first.index - second.index;
 
-/**
- * @param {Array|Object} order
- * @param {Function} [sort = () => {}]
- * @param {Symbol} [position = HEAD]
- * @return {Function}
- */
-export default (order, sort = () => {}, position = HEAD) => {
-    return Array.isArray(order) ? byPrimitive(order, sort, position) : byNested(order, sort, position);
+    });
+
 };
