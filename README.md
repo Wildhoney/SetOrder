@@ -1,6 +1,6 @@
 # Set Order
 
-> Dead simple module for ordering by an explicit order weighing in at 1.3KB.<br /><br />
+> Tiny module for sorting by a set order, using a custom sort function for omitting explicits.<br /><br />
 > `npm i set-order --save`<br /><br />
 > Useful for when you have an array of dynamic data, but you need to sort by a set order, rather than a natural sort order, such as alphabetically or numerically.
 
@@ -14,16 +14,56 @@
 
 ## Getting Started
 
-Simply pass in either an array or map of the set order. For sorting on multiple properties you're able to pass in a map with multiple keys &ndash; with the relevance being from top-to-bottom.
+Imagine a scenario where you have a set of bedroom counts, however if the bedroom count is zero then it's labelled as "studio". Using the typical `sort` function would yield the following unusual result.
 
 ```javascript
-import as from 'set-order';
+const bedrooms = [4, 2, 'Studio', 1, 3];
 
-// Primitives.
-[1, 2, 3].sort(as([2, 1, 3])); // [2, 1, 3]
-
-// Complex nested.
-[{ value: 1 }, { value: 2 }, { value: 3 }].sort(as({
-    value: [2, 1, 3]
-})); // [{ value: 2 }, { value: 1 }, { value: 3 }]
+bedrooms.sort((a, b) => a > b);
 ```
+
+> **Result:** `[2, 4, 'Studio', 1, 3]`
+
+Using `set-order` you can be explicit in specifying that *Studio* must **always** be at the beginning.
+
+```javascript
+import { exact } from 'set-order';
+
+const bedrooms = [4, 2, 'Studio', 1, 3];
+exact(bedrooms, [
+    { value: 'Studio' },
+    { value: 1 },
+    { value: 2 },
+    { value: 3 },
+    { value: 4 }
+]);
+```
+
+> **Result:** `['Studio', 1, 2, 3, 4]`
+
+However the problem with the above is obvious &mdash; you need to be explicit in specifying **all** of the possible bedroom counts, which could be into their hundreds for a chateau. Using the third parameter of the `exact` function allows you to specify a typical `sort` comparator (`(a, b) => a > b`) for unspecified items.
+
+```javascript
+import { exact } from 'set-order';
+
+const bedrooms = [4, 2, 'Studio', 1, 3];
+exact(bedrooms, [
+    { value: 'Studio' }
+], (a, b) => a - b);
+```
+
+> **Result:** `['Studio', 1, 2, 3, 4]`
+
+Assume now that we've added an additional bedroom *count* named *etc...* which will appear at the end &ndash; to achieve that we use the `position` key which defaults to `head`.
+
+```javascript
+import { exact, tail } from 'set-order';
+
+const bedrooms = [4, 'etc...', 2, 'Studio', 1, 3];
+exact(bedrooms, [
+    { value: 'Studio' },
+    { value: 'etc...', position: tail }
+], (a, b) => a - b);
+```
+
+> **Result:** `['Studio', 1, 2, 3, 4, 'etc...']`
