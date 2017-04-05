@@ -16,7 +16,7 @@
 
 Take a scenario where you have a list of bedroom counts where if the `count` is **zero** then it's labelled as **Studio** &mdash; those labelled as such should appear at the beginning of the array.
 
-Using the native `sort` with a simple function would yield an undesired result.
+Using the native `sort` with a simple function would yield an undesirable result.
 
 ```javascript
 const bedrooms = [4, 2, 'Studio', 1, 3];
@@ -38,7 +38,7 @@ bedrooms.sort(exact(['Studio', 1, 2, 3, 4]));
 
 ### Sort
 
-Taking the previous approach, its downside is immediately obvious in that you're required to specify **all** of the possible bedroom counts. Instead we'll specify **only** where **Studio** since the other values can be numerically sorted using `a - b`.
+Taking the previous approach, its downside is immediately obvious in that you're required to specify **all** of the possible bedroom counts. Instead we'll specify **only** where **Studio** should appear since the other values can be numerically sorted using `a - b`.
 
 ```javascript
 import { exact } from 'set-order';
@@ -49,9 +49,11 @@ bedrooms.sort(exact(['Studio'], (a, b) => a - b));
 // ['Studio', 1, 2, 3, 4]
 ```
 
+It's worth noting that if we didn't pass a comparator function that items that weren't mentioned explicitly will **not** be repositioned.
+
 ### Position
 
-Building on the previous example we'll add an additional item entitled **etc...** which should appear at the end of the array: `['Studio', ..., 'etc...']` which we can easily achieve by using the `position` property which accepts two possible values: `head` and `tail` where the default is `head`.
+Building on the previous example we'll add an additional item entitled **etc...** which should appear at the end of the array: `['Studio', ..., 'etc...']` which we can easily achieve by using the `position` property that takes two possible values: `head` and `tail` where the default is `head`.
 
 ```javascript
 import { exact, tail } from 'set-order';
@@ -67,7 +69,7 @@ bedrooms.sort(exact([
 
 ### Associative
 
-Although the above is *almost* what we want, in real-life scenarios we're likely to be faced with an array of objects, rather than an array of primitives. For this `set-order` uses the fantastic [`object-path`](https://github.com/mariocasciaro/object-path) module which allows you to specify nested keys in the format of `my.nested.key`.
+Although the above is *almost* what we want, in real-life scenarios we're likely to be faced with an array of objects, rather than an array of primitives. For this `set-order` uses the fantastic [`object-path`](https://github.com/mariocasciaro/object-path) module which allows you to specify nested keys in the format `a.b.c` which would select `c` from `{ a: { b: { c: '!' }}}`.
 
 ```javascript
 import { exact, tail } from 'set-order';
