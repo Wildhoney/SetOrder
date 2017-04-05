@@ -5819,6 +5819,13 @@ const isHead = x => x.position === head || !x.position;
 const isTail = x => x.position === tail;
 
 /**
+ * @method transform
+ * @param {*} x
+ * @return {Object}
+ */
+const transform = x => 'value' in Object(x) ? x : { value: x };
+
+/**
  * @method exact
  * @param {Array} order
  * @param {Function} [sort = () => 0]
@@ -5829,13 +5836,13 @@ const exact = exports.exact = (order, sort = () => 0) => {
   const { previous } = (0, _biCycle2.default)({ start: -1 });
   const { next } = (0, _biCycle2.default)({ start: 0 });
 
-  const heads = order.filter(isHead).reverse().reduce((xss, x) => [].concat(_toConsumableArray(xss), [_extends({}, x, { index: previous() })]), []);
-  const tails = order.filter(isTail).reduce((xss, x) => [].concat(_toConsumableArray(xss), [_extends({}, x, { index: next() })]), []);
+  const heads = order.map(transform).filter(isHead).reverse().reduce((xss, x) => [].concat(_toConsumableArray(xss), [_extends({}, x, { index: previous() })]), []);
+  const tails = order.map(transform).filter(isTail).reduce((xss, x) => [].concat(_toConsumableArray(xss), [_extends({}, x, { index: next() })]), []);
   const seq = [].concat(_toConsumableArray(heads), _toConsumableArray(tails));
 
   return (a, b) => {
 
-    const [firstIndex, secondIndex] = [(seq.find(x => x.value === a) || { index: -1 }).index, (seq.find(x => x.value === b) || { index: -1 }).index];
+    const [firstIndex, secondIndex] = [(seq.find(x => x.value === _objectPath2.default.get(a, x.property)) || { index: -1 }).index, (seq.find(x => x.value === _objectPath2.default.get(b, x.property)) || { index: -1 }).index];
 
     return firstIndex === -1 && secondIndex === -1 ? sort(a, b) : firstIndex - secondIndex;
   };
