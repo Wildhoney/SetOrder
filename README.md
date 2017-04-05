@@ -14,17 +14,18 @@
 
 ## Getting Started
 
-Picture a scenario where you have a set of bedroom counts where if the count is zero then it's labelled as **Studio**. Using the typical `sort` function would yield the following unusual result.
+Take a scenario where you have a list of bedroom counts where if the `count` is **zero** then it's labelled as **Studio** &mdash; those labelled as such should appear at the beginning of the array.
+
+Using the native `sort` with a simple function would yield an undesired result.
 
 ```javascript
 const bedrooms = [4, 2, 'Studio', 1, 3];
-
-bedrooms.sort((a, b) => a > b);
+bedrooms.sort((a, b) => a - b);
 
 // [2, 4, 'Studio', 1, 3]
 ```
 
-By utilising `set-order` you can be explicit in specifying that **Studio** must *always* be at the beginning.
+Instead by utilising `set-order` you're able to be explicit about which items should be grouped together in the sorting process, as well as where they reside in the array &mdash; at the beginning or at the end.
 
 ```javascript
 import { exact } from 'set-order';
@@ -35,9 +36,9 @@ bedrooms.sort(exact(['Studio', 1, 2, 3, 4]));
 // ['Studio', 1, 2, 3, 4]
 ```
 
-### Adding Sort
+### Sort
 
-However the problem with the above is obvious &mdash; you need to be explicit in specifying **all** of the possible bedroom counts, which could be into their hundreds for a chateau. Using the third parameter of the `exact` function allows you to specify a typical `sort` comparator (`(a, b) => a > b`) for unspecified items.
+Taking the previous approach, its downside is immediately obvious in that you're required to specify **all** of the possible bedroom counts. Instead we'll specify **only** where **Studio** since the other values can be numerically sorted using `a - b`.
 
 ```javascript
 import { exact } from 'set-order';
@@ -48,9 +49,9 @@ bedrooms.sort(exact(['Studio'], (a, b) => a - b));
 // ['Studio', 1, 2, 3, 4]
 ```
 
-### Set Position
+### Position
 
-Assume now that we've added an additional item named **etc...** that *must* appear at the end &ndash; to achieve that we use the `position` key which defaults to `head`.
+Building on the previous example we'll add an additional item entitled **etc...** which should appear at the end of the array: `['Studio', ..., 'etc...']` which we can easily achieve by using the `position` property which accepts two possible values: `head` and `tail` where the default is `head`.
 
 ```javascript
 import { exact, tail } from 'set-order';
@@ -66,7 +67,7 @@ bedrooms.sort(exact([
 
 ### Associative
 
-Nevertheless in real-life scenarios the bedroom counts will likely be an item in an object, that is then contained within an array which we can target by using `property`.
+Although the above is *almost* what we want, in real-life scenarios we're likely to be faced with an array of objects, rather than an array of primitives. For this `set-order` uses the fantastic [`object-path`](https://github.com/mariocasciaro/object-path) module which allows you to specify nested keys in the format of `my.nested.key`.
 
 ```javascript
 import { exact, tail } from 'set-order';
@@ -91,16 +92,15 @@ bedrooms.sort(exact([
 
 ### Shorthand
 
-As memorising the `{ value, property, position }` interface can be difficult, `set-order` allows using the `head` and `tail` properties as functions which accept two parameters: `value` and `property`.
+Using the [associative](#Associative) approach we're successfully sorting an array of objects on the key `bedrooms`, but being explicit in saying that **Studio** should appear first &mdash; regardless of how many instances of **Studio** there may be in the array &mdash; and **etc...** should appear at the very end.
+
+However memorising the `{ value, property, position }` interface may be somewhat difficult, nor is it too elegant. Instead we can be more succinct and chic by using `head` and `tail` as functions which take two parameters each: `value` and `property` where `property` is optional for arrays of objects.
  
  ```javascript
 import { exact, head, tail } from 'set-order';
 
 const bedrooms = [4, 'etc...', 2, 'Studio', 1, 3];
-bedrooms.sort(exact([
-    head('Studio'),
-    tail('etc...')
-], (a, b) => a - b));
+bedrooms.sort(exact([head('Studio'), tail('etc...')], (a, b) => a - b));
 
 // ['Studio', 1, 2, 3, 4, 'etc...']
  ```
