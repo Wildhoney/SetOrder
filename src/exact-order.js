@@ -1,5 +1,6 @@
-import path   from 'object-path';
-import Symbol from 'es6-symbol';
+import path    from 'object-path';
+import Symbol  from 'es6-symbol';
+import Bicycle from 'bi-cycle';
 
 /**
  * @constant head
@@ -14,36 +15,43 @@ export const head = Symbol('set-order/head');
 export const tail = Symbol('set-order/tail');
 
 /**
+ * @method isHead
+ * @param {Object} x
+ * @return {Boolean}
+ */
+const isHead = x => x.position === head || !x.position;
+
+/**
+ * @method isTail
+ * @param {Object} x
+ * @return {Boolean}
+ */
+const isTail = x => x.position === tail;
+
+/**
  * @method exact
- * @param {Array} xs
  * @param {Array} order
  * @param {Function} [sort = () => 0]
- * @return {Array}
+ * @return {Function}
  */
-export const exact = (xs, order, sort = () => 0) => {
+export const exact = (order, sort = () => 0) => {
 
-    const sorted = xs.reduce((xss, x, index) => {
+    const { previous } = Bicycle({ start: -1 });
+    const { next }     = Bicycle({ start: 0 });
 
-        const model = order.find(a => a.value === x);
+    const heads = order.filter(isHead).reverse().reduce((xss, x) => [...xss, { ...x, index: previous() }], []);
+    const tails = order.filter(isTail).reduce((xss, x)           => [...xss, { ...x, index: next()     }], []);
+    const seq   = [...heads, ...tails];
 
-        return [...xss, {
-            has:   !!model,
-            key:   (model || {}).key || null,
-            index: model ? (model.position === tail ? (xs.length + index) : -(xs.length - index)) : index + 1,
-            value: xs[index],
-        }];
+    return (a, b) => {
 
-    }, []);
-
-    return xs.sort((a, b) => {
-
-        const [first, second] = [
-            sorted.find(x => x.value === a),
-            sorted.find(x => x.value === b),
+        const [firstIndex, secondIndex] = [
+            (seq.find(x => x.value === a) || { index: -1 }).index,
+            (seq.find(x => x.value === b) || { index: -1 }).index,
         ];
 
-        return !first.has && !second.has ? sort(a, b) : first.index - second.index;
+        return firstIndex === -1 && secondIndex === -1 ? sort(a, b) : firstIndex - secondIndex;
 
-    });
+    };
 
 };
