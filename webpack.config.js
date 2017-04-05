@@ -3,7 +3,7 @@ const webpack = require('webpack');
 module.exports = {
     entry: './src/exact-order.js',
     output: {
-        filename: '[name].js',
+        filename: 'dist/exact-order.js',
         libraryTarget: 'commonjs2'
     },
     module: {
