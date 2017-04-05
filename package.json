@@ -28,6 +28,7 @@
   },
   "homepage": "https://github.com/Wildhoney/SetOrder#readme",
   "dependencies": {
+    "bi-cycle": "~0.1.6",
     "es6-symbol": "~3.1.1",
     "object-path": "~0.11.4",
     "ramda": "~0.23.0",
@@ -36,17 +37,24 @@
   "devDependencies": {
     "ava": "~0.18.2",
     "babel-eslint": "~7.2.1",
-    "babel-plugin-transform-do-expressions": "~6.22.0",
+    "babel-loader": "~6.4.1",
     "babel-plugin-transform-es2015-modules-commonjs": "~6.24.0",
+    "babel-plugin-transform-es2015-spread": "~6.22.0",
+    "babel-plugin-transform-object-rest-spread": "~6.23.0",
+    "babel-polyfill": "~6.23.0",
     "babel-register": "~6.24.0",
     "coveralls": "~2.13.0",
     "nyc": "~10.2.0",
     "rollup": "~0.41.6",
+    "rollup-plugin-babel": "~2.7.1",
     "rollup-plugin-commonjs": "~8.0.2",
     "rollup-plugin-node-resolve": "~2.1.1",
+    "rollup-plugin-regenerator": "~0.3.0",
     "rollup-plugin-uglify": "~1.0.1",
     "taskfile": "~0.5.3",
+    "transform-runtime": "0.0.0",
     "uglify-js-harmony": "~2.7.5",
+    "webpack": "~2.3.2",
     "xo": "~0.18.1"
   },
   "ava": {
@@ -55,7 +63,8 @@
     ],
     "babel": "inherit",
     "require": [
-      "babel-register"
+      "babel-register",
+      "babel-polyfill"
     ]
   },
   "xo": {
