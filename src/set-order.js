@@ -1,3 +1,4 @@
+import path    from 'object-path';
 import Symbol  from 'es6-symbol';
 import Bicycle from 'bi-cycle';
 
@@ -52,8 +53,8 @@ export const exact = (order, sort = () => 0) => {
     return (a, b) => {
 
         const [firstIndex, secondIndex] = [
-            (seq.find(x => x.value === a) || { index: -1 }).index,
-            (seq.find(x => x.value === b) || { index: -1 }).index,
+            (seq.find(x => x.value === path.get(a, x.property)) || { index: -1 }).index,
+            (seq.find(x => x.value === path.get(b, x.property)) || { index: -1 }).index,
         ];
 
         return firstIndex === -1 && secondIndex === -1 ? sort(a, b) : firstIndex - secondIndex;

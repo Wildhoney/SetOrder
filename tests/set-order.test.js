@@ -1,20 +1,24 @@
-import test from 'ava';
+import test                  from 'ava';
+import shuffle               from 'shuffle-array';
 import { exact, head, tail } from '../src/set-order';
-import by from 'sort-by';
+import by                    from 'sort-by';
 
-test('Should be able to custom sort on primitives using primitives as input;', t => {
+test.beforeEach(t => {
+    t.context.original  = ['Studio', 1, 2, 3, 4, 5, 'etc...'];
+    t.context.primitive = shuffle([...t.context.original]);
+    t.context.complex   = t.context.primitive.map(bedrooms => ({ bedrooms }));
+});
 
-    const xs  = [1, 'etc...', 2, 5, 3, 4, 'Studio'];
-    const xss = xs.sort(exact(['Studio', 1, 2, 3, 4, 5, 'etc...'], (a, b) => a - b));
+test('Should be able to custom sort using primitives as input;', t => {
 
-    t.deepEqual(xss, ['Studio', 1, 2, 3, 4, 5, 'etc...']);
+    const xss1 = t.context.primitive.sort(exact(['Studio', 1, 2, 3, 4, 5, 'etc...'], (a, b) => a - b));
+    t.deepEqual(xss1, t.context.original);
 
 });
 
-test('Should be able to custom sort on primitives using manual enumeration;', t => {
+test('Should be able to custom sort using manual enumeration;', t => {
 
-    const xs  = [1, 'etc...', 2, 5, 3, 4, 'Studio'];
-    const xss = xs.sort(exact([
+    const xss = t.context.primitive.sort(exact([
         { value: 'Studio' },
         { value: 1 },
         { value: 2 },
@@ -23,19 +27,33 @@ test('Should be able to custom sort on primitives using manual enumeration;', t 
         { value: 5 },
         { value: 'etc...' },
     ]));
+    t.deepEqual(xss, t.context.original);
 
-    t.deepEqual(xss, ['Studio', 1, 2, 3, 4, 5, 'etc...']);
+    const xss2 = t.context.complex.sort(exact([
+        { property: 'bedrooms', value: 'Studio' },
+        { property: 'bedrooms', value: 1 },
+        { property: 'bedrooms', value: 2 },
+        { property: 'bedrooms', value: 3 },
+        { property: 'bedrooms', value: 4 },
+        { property: 'bedrooms', value: 5 },
+        { property: 'bedrooms', value: 'etc...' },
+    ]));
+    t.deepEqual(xss2, t.context.original.map(bedrooms => ({ bedrooms })));
 
 });
 
-test('Should be able to custom sort on primitives using optional sort function;', t => {
+test('Should be able to custom sort using optional sort function;', t => {
 
-    const xs  = [1, 'etc...', 2, 5, 3, 4, 'Studio'];
-    const xss = xs.sort(exact([
+    const xss1 = t.context.primitive.sort(exact([
         { value: 'Studio' },
         { value: 'etc...', position: tail },
     ], (a, b) => a - b));
+    t.deepEqual(xss1, t.context.original);
 
-    t.deepEqual(xss, ['Studio', 1, 2, 3, 4, 5, 'etc...']);
+    const xss2 = t.context.complex.sort(exact([
+        { property: 'bedrooms', value: 'Studio' },
+        { property: 'bedrooms', value: 'etc...', position: tail },
+    ], by('bedrooms')));
+    t.deepEqual(xss2, t.context.original.map(bedrooms => ({ bedrooms })));
 
 });
