@@ -1,18 +1,21 @@
 import path    from 'object-path';
-import Symbol  from 'es6-symbol';
 import Bicycle from 'bi-cycle';
 
 /**
- * @constant head
- * @type {Symbol}
+ * @method head
+ * @param {*} value
+ * @param {String} [key]
+ * @return {Object}
  */
-export const head = Symbol('set-order/head');
+export const head = (value, key) => ({ value, key, position: head });
 
 /**
- * @constant tail
- * @type {Symbol}
+ * @method tail
+ * @param {*} value
+ * @param {String} [key]
+ * @return {Object}
  */
-export const tail = Symbol('set-order/tail');
+export const tail = (value, key) => ({ value, key, position: tail });
 
 /**
  * @method isHead

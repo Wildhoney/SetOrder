@@ -16,6 +16,16 @@ test('Should be able to custom sort using primitives as input;', t => {
 
 });
 
+test('Should be able to custom sort using positions as functions;', t => {
+
+    const xss = t.context.primitive.sort(exact([
+        head('Studio'),
+        tail('etc...'),
+    ], (a, b) => a - b));
+    t.deepEqual(xss, t.context.original);
+
+});
+
 test('Should be able to custom sort using primitives as input and maintain order;', t => {
 
     const rest = [...t.context.primitive.filter(x => typeof x !== 'string')];
