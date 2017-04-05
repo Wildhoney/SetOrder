@@ -22,7 +22,7 @@ const bedrooms = [4, 2, 'Studio', 1, 3];
 bedrooms.sort((a, b) => a > b);
 ```
 
-> <sup>**Result:** `[2, 4, 'Studio', 1, 3]`</sup>
+<sup>> **Result:** `[2, 4, 'Studio', 1, 3]`</sup>
 
 However by utilising `set-order` you can be explicit in specifying that **Studio** must *always* be at the beginning.
 
