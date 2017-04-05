@@ -30,13 +30,7 @@ However by utilising `set-order` you can be explicit in specifying that **Studio
 import { exact } from 'set-order';
 
 const bedrooms = [4, 2, 'Studio', 1, 3];
-bedrooms.sort(exact([
-    { value: 'Studio' },
-    { value: 1 },
-    { value: 2 },
-    { value: 3 },
-    { value: 4 }
-]));
+bedrooms.sort(exact(['Studio', 1, 2, 3, 4]));
 ```
 
 > :gem: **Result:** `['Studio', 1, 2, 3, 4]`
@@ -47,9 +41,7 @@ However the problem with the above is obvious &mdash; you need to be explicit in
 import { exact } from 'set-order';
 
 const bedrooms = [4, 2, 'Studio', 1, 3];
-bedrooms.sort(exact([
-    { value: 'Studio' }
-], (a, b) => a - b));
+bedrooms.sort(exact(['Studio'], (a, b) => a - b));
 ```
 
 > :gem: **Result:** `['Studio', 1, 2, 3, 4]`
