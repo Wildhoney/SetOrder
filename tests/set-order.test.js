@@ -1,5 +1,5 @@
 import test from 'ava';
-import { exact, head, tail } from '../src/exact-order';
+import { exact, head, tail } from '../src/set-order';
 import by from 'sort-by';
 
 test('Should be able to custom sort on primitives using manual enumeration;', t => {

@@ -1,9 +1,9 @@
 const webpack = require('webpack');
 
 module.exports = {
-    entry: './src/exact-order.js',
+    entry: './src/set-order.js',
     output: {
-        filename: 'dist/exact-order.js',
+        filename: 'dist/set-order.js',
         libraryTarget: 'commonjs2'
     },
     module: {

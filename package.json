@@ -2,7 +2,7 @@
   "name": "set-order",
   "version": "0.2.1",
   "description": "Tiny module for sorting by a set order, using a custom sort function for omitting explicits.",
-  "main": "dist/exact-order.js",
+  "main": "dist/set-order.js",
   "scripts": {
     "build": "taskfile build",
     "test": "taskfile test",
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Wildhoney/ExactOrder.git"
+    "url": "git+https://github.com/Wildhoney/SetOrder.git"
   },
   "keywords": [
     "ordering",
@@ -24,7 +24,7 @@
   "author": "Adam Timberlake <adam.timberlake@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Wildhoney/ExactOrder/issues"
+    "url": "https://github.com/Wildhoney/SetOrder/issues"
   },
   "homepage": "https://github.com/Wildhoney/SetOrder#readme",
   "dependencies": {
@@ -51,7 +51,7 @@
     "rollup-plugin-node-resolve": "~2.1.1",
     "rollup-plugin-regenerator": "~0.3.0",
     "rollup-plugin-uglify": "~1.0.1",
-    "taskfile": "~0.5.3",
+    "taskfile": "~0.5.7",
     "transform-runtime": "0.0.0",
     "uglify-js-harmony": "~2.7.5",
     "webpack": "~2.3.2",
@@ -73,10 +73,10 @@
     "esnext": true,
     "rules": {
       "curly": "off",
+      "new-cap": "off",
       "key-spacing": "off",
       "comma-dangle": "off",
       "padded-blocks": "off",
-      "no-unused-vars": "off",
       "no-multi-spaces": "off",
       "no-implicit-coercion": "off",
       "object-curly-spacing": "off"

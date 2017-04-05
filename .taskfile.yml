@@ -7,7 +7,7 @@
     - taskfile spec
 
 - name: lint
-  task: xo src/exact-order.js
+  task: xo src/set-order.js
 
 - name: spec
   task: nyc ava
