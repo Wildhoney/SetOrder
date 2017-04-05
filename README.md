@@ -22,7 +22,7 @@ const bedrooms = [4, 2, 'Studio', 1, 3];
 bedrooms.sort((a, b) => a > b);
 ```
 
-<sup>> **Result:** `[2, 4, 'Studio', 1, 3]`</sup>
+<sup>**Result:** `[2, 4, 'Studio', 1, 3]`</sup>
 
 However by utilising `set-order` you can be explicit in specifying that **Studio** must *always* be at the beginning.
 
@@ -33,7 +33,7 @@ const bedrooms = [4, 2, 'Studio', 1, 3];
 bedrooms.sort(exact(['Studio', 1, 2, 3, 4]));
 ```
 
-> **Result:** `['Studio', 1, 2, 3, 4]`
+<sup>**Result:** `['Studio', 1, 2, 3, 4]`</sup>
 
 However the problem with the above is obvious &mdash; you need to be explicit in specifying **all** of the possible bedroom counts, which could be into their hundreds for a chateau. Using the third parameter of the `exact` function allows you to specify a typical `sort` comparator (`(a, b) => a > b`) for unspecified items.
 
@@ -44,7 +44,7 @@ const bedrooms = [4, 2, 'Studio', 1, 3];
 bedrooms.sort(exact(['Studio'], (a, b) => a - b));
 ```
 
-> <sup>**Result:** `['Studio', 1, 2, 3, 4]`</sup>
+<sup>**Result:** `['Studio', 1, 2, 3, 4]`</sup>
 
 Assume now that we've added an additional item named **etc...** that *must* appear at the end &ndash; to achieve that we use the `position` key which defaults to `head`.
 
@@ -58,7 +58,7 @@ bedrooms.sort(exact([
 ], (a, b) => a - b));
 ```
 
-> **Result:** `['Studio', 1, 2, 3, 4, 'etc...']`
+<sup>**Result:** `['Studio', 1, 2, 3, 4, 'etc...']`</sup>
 
 Nevertheless in real-life scenarios the bedroom counts will likely be an item in an object, that is then contained within an array which we can target by using `property`.
 
@@ -81,4 +81,4 @@ bedrooms.sort(exact([
 ], by('bedrooms')));
 ```
 
-> **Result:** `[{ id: 4, bedrooms: 'Studio' }, { id: 5, bedrooms: 1' }] etc...`
+<sup>**Result:** `[{ id: 4, bedrooms: 'Studio' }, { id: 5, bedrooms: 1' }] etc...`</sup>
