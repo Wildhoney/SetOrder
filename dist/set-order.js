@@ -5826,6 +5826,20 @@ const isTail = x => x.position === tail;
 const transform = x => 'value' in Object(x) ? x : { value: x };
 
 /**
+ * @method indexify
+ * @param {Function} fn
+ * @return {Function}
+ */
+const indexify = fn => (xss, x) => [].concat(_toConsumableArray(xss), [_extends({}, x, { index: fn() })]);
+
+/**
+ * @method findIndexIn
+ * @param {Array} sequence
+ * @return {Function}
+ */
+const findIndexIn = sequence => x => (sequence.find(y => y.value === _objectPath2.default.get(x, y.property)) || { index: -1 }).index;
+
+/**
  * @method exact
  * @param {Array} order
  * @param {Function} [sort = () => 0]
@@ -5835,15 +5849,10 @@ const exact = exports.exact = (order, sort = () => 0) => {
 
   const { previous } = (0, _biCycle2.default)({ start: -1 });
   const { next } = (0, _biCycle2.default)({ start: 0 });
-
-  const heads = order.map(transform).filter(isHead).reverse().reduce((xss, x) => [].concat(_toConsumableArray(xss), [_extends({}, x, { index: previous() })]), []);
-  const tails = order.map(transform).filter(isTail).reduce((xss, x) => [].concat(_toConsumableArray(xss), [_extends({}, x, { index: next() })]), []);
-  const seq = [].concat(_toConsumableArray(heads), _toConsumableArray(tails));
+  const findIndex = findIndexIn([].concat(_toConsumableArray(order.map(transform).filter(isHead).reverse().reduce(indexify(previous), [])), _toConsumableArray(order.map(transform).filter(isTail).reduce(indexify(next), []))));
 
   return (a, b) => {
-
-    const [firstIndex, secondIndex] = [(seq.find(x => x.value === _objectPath2.default.get(a, x.property)) || { index: -1 }).index, (seq.find(x => x.value === _objectPath2.default.get(b, x.property)) || { index: -1 }).index];
-
+    const [firstIndex, secondIndex] = [findIndex(a), findIndex(b)];
     return firstIndex === -1 && secondIndex === -1 ? sort(a, b) : firstIndex - secondIndex;
   };
 };

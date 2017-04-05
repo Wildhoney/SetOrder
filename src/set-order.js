@@ -36,6 +36,20 @@ const isTail = x => x.position === tail;
 const transform = x => 'value' in Object(x) ? x : { value: x };
 
 /**
+ * @method indexify
+ * @param {Function} fn
+ * @return {Function}
+ */
+const indexify = fn => (xss, x) => [...xss, { ...x, index: fn() }];
+
+/**
+ * @method findIndexIn
+ * @param {Array} sequence
+ * @return {Function}
+ */
+const findIndexIn = sequence => x => (sequence.find(y => y.value === path.get(x, y.property)) || { index: -1 }).index;
+
+/**
  * @method exact
  * @param {Array} order
  * @param {Function} [sort = () => 0]
@@ -45,20 +59,14 @@ export const exact = (order, sort = () => 0) => {
 
     const { previous } = Bicycle({ start: -1 });
     const { next }     = Bicycle({ start: 0 });
-
-    const heads = order.map(transform).filter(isHead).reverse().reduce((xss, x) => [...xss, { ...x, index: previous() }], []);
-    const tails = order.map(transform).filter(isTail).reduce((xss, x)           => [...xss, { ...x, index: next()     }], []);
-    const seq   = [...heads, ...tails];
+    const findIndex    = findIndexIn([
+        ...order.map(transform).filter(isHead).reverse().reduce(indexify(previous), []),
+        ...order.map(transform).filter(isTail).reduce(indexify(next), [])
+    ]);
 
     return (a, b) => {
-
-        const [firstIndex, secondIndex] = [
-            (seq.find(x => x.value === path.get(a, x.property)) || { index: -1 }).index,
-            (seq.find(x => x.value === path.get(b, x.property)) || { index: -1 }).index,
-        ];
-
+        const [firstIndex, secondIndex] = [findIndex(a), findIndex(b)];
         return firstIndex === -1 && secondIndex === -1 ? sort(a, b) : firstIndex - secondIndex;
-
     };
 
 };

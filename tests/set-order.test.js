@@ -30,7 +30,7 @@ test('Should be able to custom sort using manual enumeration;', t => {
         { value: 'Studio' },
         { value: 1 },
         { value: 2 },
-        { value: 3 },
+        { value: 3, position: head },
         { value: 4 },
         { value: 5 },
         { value: 'etc...' },
@@ -43,7 +43,7 @@ test('Should be able to custom sort using manual enumeration;', t => {
         { property: 'bedrooms', value: 2 },
         { property: 'bedrooms', value: 3 },
         { property: 'bedrooms', value: 4 },
-        { property: 'bedrooms', value: 5 },
+        { property: 'bedrooms', value: 5, position: head },
         { property: 'bedrooms', value: 'etc...' },
     ]));
     t.deepEqual(xss2, t.context.original.map(bedrooms => ({ bedrooms })));
