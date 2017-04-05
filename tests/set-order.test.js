@@ -11,14 +11,22 @@ test.beforeEach(t => {
 
 test('Should be able to custom sort using primitives as input;', t => {
 
-    const xss1 = t.context.primitive.sort(exact(['Studio', 1, 2, 3, 4, 5, 'etc...'], (a, b) => a - b));
-    t.deepEqual(xss1, t.context.original);
+    const xss = t.context.primitive.sort(exact(['Studio', 1, 2, 3, 4, 5, 'etc...'], (a, b) => a - b));
+    t.deepEqual(xss, t.context.original);
+
+});
+
+test('Should be able to custom sort using primitives as input and maintain order;', t => {
+
+    const rest = [...t.context.primitive.filter(x => typeof x !== 'string')];
+    const xss  = t.context.primitive.sort(exact(['Studio', { value: 'etc...', position: tail }]));
+    t.deepEqual(xss, ['Studio', ...rest, 'etc...']);
 
 });
 
 test('Should be able to custom sort using manual enumeration;', t => {
 
-    const xss = t.context.primitive.sort(exact([
+    const xss1 = t.context.primitive.sort(exact([
         { value: 'Studio' },
         { value: 1 },
         { value: 2 },
@@ -27,7 +35,7 @@ test('Should be able to custom sort using manual enumeration;', t => {
         { value: 5 },
         { value: 'etc...' },
     ]));
-    t.deepEqual(xss, t.context.original);
+    t.deepEqual(xss1, t.context.original);
 
     const xss2 = t.context.complex.sort(exact([
         { property: 'bedrooms', value: 'Studio' },
