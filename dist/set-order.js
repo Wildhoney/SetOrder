@@ -5781,18 +5781,18 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 /**
  * @method head
  * @param {*} value
- * @param {String} [key]
+ * @param {String} [property]
  * @return {Object}
  */
-const head = exports.head = (value, key) => ({ value, key, position: head });
+const head = exports.head = (value, property) => ({ value, property, position: head });
 
 /**
  * @method tail
  * @param {*} value
- * @param {String} [key]
+ * @param {String} [property]
  * @return {Object}
  */
-const tail = exports.tail = (value, key) => ({ value, key, position: tail });
+const tail = exports.tail = (value, property) => ({ value, property, position: tail });
 
 /**
  * @method isHead

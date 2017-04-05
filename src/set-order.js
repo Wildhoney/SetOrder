@@ -4,18 +4,18 @@ import Bicycle from 'bi-cycle';
 /**
  * @method head
  * @param {*} value
- * @param {String} [key]
+ * @param {String} [property]
  * @return {Object}
  */
-export const head = (value, key) => ({ value, key, position: head });
+export const head = (value, property) => ({ value, property, position: head });
 
 /**
  * @method tail
  * @param {*} value
- * @param {String} [key]
+ * @param {String} [property]
  * @return {Object}
  */
-export const tail = (value, key) => ({ value, key, position: tail });
+export const tail = (value, property) => ({ value, property, position: tail });
 
 /**
  * @method isHead

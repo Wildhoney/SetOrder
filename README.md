@@ -20,20 +20,22 @@ Picture a scenario where you have a set of bedroom counts where if the count is 
 const bedrooms = [4, 2, 'Studio', 1, 3];
 
 bedrooms.sort((a, b) => a > b);
+
+// [2, 4, 'Studio', 1, 3]
 ```
 
-<sup>**Result:** `[2, 4, 'Studio', 1, 3]`</sup>
-
-However by utilising `set-order` you can be explicit in specifying that **Studio** must *always* be at the beginning.
+By utilising `set-order` you can be explicit in specifying that **Studio** must *always* be at the beginning.
 
 ```javascript
 import { exact } from 'set-order';
 
 const bedrooms = [4, 2, 'Studio', 1, 3];
 bedrooms.sort(exact(['Studio', 1, 2, 3, 4]));
+
+// ['Studio', 1, 2, 3, 4]
 ```
 
-<sup>**Result:** `['Studio', 1, 2, 3, 4]`</sup>
+### Adding Sort
 
 However the problem with the above is obvious &mdash; you need to be explicit in specifying **all** of the possible bedroom counts, which could be into their hundreds for a chateau. Using the third parameter of the `exact` function allows you to specify a typical `sort` comparator (`(a, b) => a > b`) for unspecified items.
 
@@ -42,9 +44,11 @@ import { exact } from 'set-order';
 
 const bedrooms = [4, 2, 'Studio', 1, 3];
 bedrooms.sort(exact(['Studio'], (a, b) => a - b));
+
+// ['Studio', 1, 2, 3, 4]
 ```
 
-<sup>**Result:** `['Studio', 1, 2, 3, 4]`</sup>
+### Set Position
 
 Assume now that we've added an additional item named **etc...** that *must* appear at the end &ndash; to achieve that we use the `position` key which defaults to `head`.
 
@@ -56,9 +60,11 @@ bedrooms.sort(exact([
     { value: 'Studio' },
     { value: 'etc...', position: tail }
 ], (a, b) => a - b));
+
+// ['Studio', 1, 2, 3, 4, 'etc...']
 ```
 
-<sup>**Result:** `['Studio', 1, 2, 3, 4, 'etc...']`</sup>
+### Associative
 
 Nevertheless in real-life scenarios the bedroom counts will likely be an item in an object, that is then contained within an array which we can target by using `property`.
 
@@ -79,6 +85,22 @@ bedrooms.sort(exact([
     { property: 'bedrooms', value: 'Studio' },
     { property: 'bedrooms', value: 'etc...', position: tail }
 ], by('bedrooms')));
+
+// [{ id: 4, bedrooms: 'Studio' }, { id: 5, bedrooms: 1' }] etc...
 ```
 
-<sup>**Result:** `[{ id: 4, bedrooms: 'Studio' }, { id: 5, bedrooms: 1' }] etc...`</sup>
+### Shorthand
+
+As memorising the `{ value, property, position }` interface can be difficult, `set-order` allows using the `head` and `tail` properties as functions which accept two parameters: `value` and `property`.
+ 
+ ```javascript
+import { exact, head, tail } from 'set-order';
+
+const bedrooms = [4, 'etc...', 2, 'Studio', 1, 3];
+bedrooms.sort(exact([
+    head('Studio'),
+    tail('etc...')
+], (a, b) => a - b));
+
+// ['Studio', 1, 2, 3, 4, 'etc...']
+ ```
