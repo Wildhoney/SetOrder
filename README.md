@@ -16,7 +16,7 @@
 
 Take a scenario where you have a list of bedroom counts where if the `count` is **zero** then it's labelled as **Studio** &mdash; those labelled as such should appear at the beginning of the array.
 
-Using the native `sort` with a simple function would yield an undesirable result.
+Using the native `sort` with a simple comparator function would yield an unsatisfactory result.
 
 ```javascript
 const bedrooms = [4, 2, 'Studio', 1, 3];
@@ -96,7 +96,7 @@ bedrooms.sort(exact([
 
 Using the [associative](#Associative) approach we're successfully sorting an array of objects on the key `bedrooms`, but being explicit in saying that **Studio** should appear first &mdash; regardless of how many instances of **Studio** there may be in the array &mdash; and **etc...** should appear at the very end.
 
-However memorising the `{ value, property, position }` interface may be somewhat difficult, nor is it too elegant. Instead we can be more succinct and chic by using `head` and `tail` as functions which take two parameters each: `value` and `property` where `property` is optional for arrays of objects.
+However memorising the `{ value, property, position }` interface may be somewhat difficult, nor is it too elegant. Instead we can be more succinct and chic by using `head` and `tail` as functions which take two parameters each: `value` and `property` where `property` is optional for an array of objects.
  
  ```javascript
 import { exact, head, tail } from 'set-order';
